@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gallery 🖼️</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #fdf6f0;
+        padding: 20px;
+        color: #6b4c3b;
+        text-align: center;
+      }
+      #galleryItems {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 20px;
+      }
+      #galleryItems img,
+      #galleryItems video {
+        width: 150px;
+        border-radius: 15px;
+        cursor: pointer;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      }
+      #galleryItems video {
+        height: 100px;
+      }
+      button {
+        margin-top: 20px;
+        padding: 12px 24px;
+        background: #c8a97e;
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #b88744;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Your Gallery 🖼️</h1>
+    <div id="galleryItems">Loading...</div>
+    <button onclick="location.href='photo.html'">Back to Camera</button>
+    <button id="resetBtn" style="background: #ff6b6b; margin-left: 10px">
+      Reset Gallery
+    </button>
+    <script>
+      document.getElementById("resetBtn").onclick = function () {
+        if (
+          confirm(
+            "Are you sure you want to reset the gallery? This cannot be undone."
+          )
+        ) {
+          localStorage.removeItem("galleryItems");
+          loadGallery();
+        }
+      };
+      function loadGallery() {
+        const gallery = JSON.parse(
+          localStorage.getItem("galleryItems") || "[]"
+        );
+        const container = document.getElementById("galleryItems");
+        container.innerHTML = "";
+
+        if (gallery.length === 0) {
+          container.textContent = "No photos or videos yet! Go take some!";
+          return;
+        }
+
+        gallery.forEach((item) => {
+          let el;
+          if (item.type === "photo") {
+            el = document.createElement("img");
+            el.src = item.url;
+            el.title = "Click to view full image";
+            el.onclick = () => window.open(item.url, "_blank");
+          } else if (item.type === "video") {
+            el = document.createElement("video");
+            el.src = item.url;
+            el.controls = true;
+            el.title = "Click to play video";
+          }
+          container.appendChild(el);
+        });
+      }
+
+      window.onload = loadGallery;
+    </script>
+  </body>
+</html>
