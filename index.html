@@ -157,11 +157,7 @@
     </style>
   </head>
   <body>
-    <div class="sparkle" style="display: none" >
-    <img src="/teddy-bear.png" class="teddy" />
-    <img src="/teddy-bear-2.png" class="teddy" />
-    <img src="/cat.png" class="teddy" />
-</div>
+   
 
     <div class="paper">
       <div id="letter">
@@ -248,19 +244,6 @@
             window.location.href = "TorD.html"; // update to your actual Truth or Dare game path
           };
         }
-
-        function spawnTeddy() {
-  const teddy = document.createElement("img");
-  teddy.src = "/teddy-bear.png";
-  teddy.className = "teddy";
-  teddy.style.left = Math.random() * 90 + "vw";
-  teddy.style.top = Math.random() * 80 + "vh";
-  document.body.appendChild(teddy);
-  setTimeout(() => teddy.remove(), 10000);
-}
-
-setInterval(spawnTeddy, 3000);
-
       }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
