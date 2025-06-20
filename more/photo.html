@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="website icon" href="/more/teddy-bear.png" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Take Photos & Videos 📸</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        text-align: center;
+        background: #fdf6f0;
+        padding: 20px;
+        color: #6b4c3b;
+      }
+      video,
+      img {
+        max-width: 90vw;
+        max-height: 300px;
+        border-radius: 15px;
+        margin-bottom: 10px;
+      }
+      button {
+        margin: 5px;
+        padding: 10px 20px;
+        background: #c8a97e;
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #b88744;
+      }
+      #photoPreview {
+        display: block; /* so margin works */
+        margin: 10px auto; /* auto left and right margin centers it */
+        max-width: 90vw;
+        border-radius: 15px;
+      }
+      #video {
+        display: block; /* so margin works */
+        margin: 10px auto; /* auto left and right margin centers it */
+        max-width: 90vw;
+        border-radius: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <audio id="bgMusic" autoplay loop>
+      <source src="/more/music.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+
+    <button
+      onclick="toggleMusic()"
+      style="position: fixed; top: 10px; right: 10px; z-index: 100"
+    >
+      🎵 Music: On
+    </button>
+
+    <script>
+      let isPlaying = true;
+      const music = document.getElementById("bgMusic");
+      const button = document.querySelector("button[onclick='toggleMusic()']");
+
+      function toggleMusic() {
+        if (isPlaying) {
+          music.pause();
+          button.textContent = "🔇 Music: Off";
+        } else {
+          music.play();
+          button.textContent = "🎵 Music: On";
+        }
+        isPlaying = !isPlaying;
+      }
+    </script>
+    <h1>Take Photos & Videos 🎉</h1>
+
+    <video id="video" autoplay playsinline></video>
+    <img id="photoPreview" style="display: none" alt="Captured Photo" />
+
+    <div>
+      <button id="snapBtn">Take Photo 📸</button>
+      <button id="retakeBtn" style="display: none">Retake Photo 🤳</button>
+      <button id="recordBtn">Start Recording 🎥</button>
+      <button onclick="location.href='gallery.html'">Go to Gallery 🖼️</button>
+    </div>
+
+    <div>
+      <button>
+        <a href="index.html" style="color: white; text-decoration: none"
+          >Back to Letter 💖</a
+        >
+      </button>
+    </div>
+
+    <script>
+      const video = document.getElementById("video");
+      const photoPreview = document.getElementById("photoPreview");
+      const snapBtn = document.getElementById("snapBtn");
+      const retakeBtn = document.getElementById("retakeBtn");
+      const recordBtn = document.getElementById("recordBtn");
+
+      let mediaRecorder;
+      let chunks = [];
+      let isRecording = false;
+      let localStream;
+
+      // Setup camera and mic
+      async function startCamera() {
+        try {
+          localStream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true,
+          });
+          video.srcObject = localStream;
+        } catch (err) {
+          alert("Please allow camera and microphone access!");
+        }
+      }
+      startCamera();
+
+      // Take photo as base64 string
+      snapBtn.onclick = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0);
+
+        const base64Image = canvas.toDataURL("image/png");
+
+        // Show captured photo preview
+        photoPreview.src = base64Image;
+        photoPreview.style.display = "block";
+        video.style.display = "none";
+
+        snapBtn.style.display = "none";
+        retakeBtn.style.display = "inline-block";
+
+        // Save photo to localStorage gallery
+        saveToGallery(base64Image, "photo");
+      };
+
+      retakeBtn.onclick = () => {
+        photoPreview.style.display = "none";
+        video.style.display = "block";
+
+        retakeBtn.style.display = "none";
+        snapBtn.style.display = "inline-block";
+      };
+
+      // Save media to localStorage
+      function saveToGallery(dataURL, type) {
+        const gallery = JSON.parse(
+          localStorage.getItem("galleryItems") || "[]"
+        );
+        gallery.push({ url: dataURL, type });
+        localStorage.setItem("galleryItems", JSON.stringify(gallery));
+      }
+
+      // Video recording
+      recordBtn.onclick = () => {
+        if (!isRecording) {
+          chunks = [];
+          mediaRecorder = new MediaRecorder(localStream);
+
+          mediaRecorder.ondataavailable = (e) => {
+            if (e.data.size > 0) chunks.push(e.data);
+          };
+
+          mediaRecorder.onstop = () => {
+            const blob = new Blob(chunks, { type: "video/webm" });
+            const reader = new FileReader();
+
+            reader.onload = () => {
+              // reader.result is base64 string
+              saveToGallery(reader.result, "video");
+              alert("Video saved! You can check it in Gallery.");
+            };
+
+            reader.readAsDataURL(blob);
+
+            recordBtn.textContent = "Start Recording";
+            isRecording = false;
+          };
+
+          mediaRecorder.start();
+          recordBtn.textContent = "Stop Recording";
+          isRecording = true;
+        } else {
+          mediaRecorder.stop();
+        }
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="website icon" href="/more/teddy-bear.png" />
+  <head>
+    <meta charset="UTF-8" />
+    <title>Truth or Dare - Slay Edition 🔥</title>
+    <style>
+      body {
+        background-color: #f7f1e1;
+        color: #5a3e36;
+        font-family: "Georgia", serif;
+        text-align: center;
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #a3531ddc;
+        text-shadow: 1px 1px 5px #6d2323;
+      }
+
+      button.truth,
+      button.dare {
+        background-color: #d9b8a7;
+        color: #f7f1e1;
+        border: none;
+        padding: 15px 30px;
+        margin: 1rem;
+        border-radius: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 5px 15px #c4a484;
+        font-size: 1.2rem;
+        transition: background-color 0.3s ease;
+      }
+
+      button.truth:hover,
+      button.dare:hover {
+        background-color: #e5d0ac;
+        box-shadow: 0 5px 15px #a67c52;
+      }
+
+      #question {
+        margin-top: 30px;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #5a3e36;
+        min-height: 100px;
+      }
+
+      button.reset {
+        background-color: #e5d0ac;
+        color: #5a3e36;
+        margin-top: 40px;
+        padding: 12px 28px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 600;
+        box-shadow: 0 4px 10px #d9b8a7;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button.reset:hover {
+        background-color: #d9b8a7;
+        color: #f7f1e1;
+        box-shadow: 0 4px 10px #a67c52;
+      }
+    </style>
+  </head>
+  <body>
+    <audio id="bgMusic" autoplay loop>
+      <source src="/more/music.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+
+    <button
+      onclick="toggleMusic()"
+      style="position: fixed; top: 10px; right: 10px; z-index: 100; background-color: #f7f1e1; color: #5a3e36; padding: 10px 20px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer;"
+    >
+      🎵 Music: On
+    </button>
+
+    <script>
+      let isPlaying = true;
+      const music = document.getElementById("bgMusic");
+      const button = document.querySelector("button[onclick='toggleMusic()']");
+
+      function toggleMusic() {
+        if (isPlaying) {
+          music.pause();
+          button.textContent = "🔇 Music: Off";
+        } else {
+          music.play();
+          button.textContent = "🎵 Music: On";
+        }
+        isPlaying = !isPlaying;
+      }
+    </script>
+    <h1>Truth or Dare 🔥</h1>
+
+    <div>
+      <button class="truth">Truth</button>
+      <button class="dare">Dare</button>
+    </div>
+
+    <div id="question">Choose Truth or Dare to start slaying!</div>
+
+    <div>
+      <button class="reset">Reset Game</button>
+    </div>
+    <button
+      onclick="location.href='index.html'"
+      style="
+        margin-top: 20px;
+        background-color: #e5d0ac;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        cursor: pointer;
+      "
+    >
+      Back to Letter 💖
+    </button>
+
+    <script>
+      const truths = [
+        "What's your most embarrassing crush story?",
+        "Have you ever lied to your crush?",
+        "What's a secret you’ve never told anyone?",
+        "Who is your celebrity crush?",
+        "What's your weirdest habit?",
+        "What's the last thing you searched on your phone?",
+        "Have you ever pretended to be sick to skip school?",
+        "What's your biggest fear?",
+        "What's the most awkward thing you’ve done in public?",
+        "What’s one thing you regret saying out loud?",
+        "If you could switch lives with someone for a day, who would it be?",
+        "What's the silliest lie you've told?",
+        "Have you ever stalked someone on social media?",
+        "What's the weirdest dream you've had recently?",
+        "If you had to eat one food forever, what would it be?",
+      ];
+
+      const dares = [
+        "Do your fiercest runway walk across the room.",
+        "Record a 15-sec video singing your favorite hype song.",
+        "Wear sunglasses and act like a celeb for 2 minutes.",
+        "Dance without music for 30 seconds.",
+        "Speak in a funny accent for the next 5 minutes.",
+        "Do 10 jumping jacks while yelling 'I’m a superstar!'",
+        "Make a funny face and hold it for 10 seconds.",
+        "Take a silly selfie and send it to your bestie.",
+        "Pretend you’re a cat and meow loudly.",
+        "Act like your favorite cartoon character for 1 minute.",
+        "Draw a quick doodle of a monster and show it.",
+        "Try to lick your elbow (spoiler: it's almost impossible!).",
+        "Do your best celebrity impression.",
+        "Balance a book on your head for 20 seconds.",
+        "Tell a joke and try to make everyone laugh.",
+      ];
+
+      // Create copies to track available questions
+      let availableTruths = [...truths];
+      let availableDares = [...dares];
+
+      const truthBtn = document.querySelector("button.truth");
+      const dareBtn = document.querySelector("button.dare");
+      const questionEl = document.getElementById("question");
+      const resetBtn = document.querySelector("button.reset");
+
+      function getRandomAndRemove(arr) {
+        if (arr.length === 0) {
+          return null;
+        }
+        const index = Math.floor(Math.random() * arr.length);
+        const item = arr[index];
+        arr.splice(index, 1); // remove from array
+        return item;
+      }
+
+      truthBtn.addEventListener("click", () => {
+        const question = getRandomAndRemove(availableTruths);
+        if (question) {
+          questionEl.textContent = "🔥 Truth: " + question;
+        } else {
+          questionEl.textContent =
+            "No more truth questions! Hit Reset to play again.";
+        }
+      });
+
+      dareBtn.addEventListener("click", () => {
+        const dare = getRandomAndRemove(availableDares);
+        if (dare) {
+          questionEl.textContent = "🔥 Dare: " + dare;
+        } else {
+          questionEl.textContent = "No more dares! Hit Reset to play again.";
+        }
+      });
+
+      resetBtn.addEventListener("click", () => {
+        availableTruths = [...truths];
+        availableDares = [...dares];
+        questionEl.textContent =
+          "Game reset! Choose Truth or Dare to start slaying again!";
+      });
+    </script>
+  </body>
+</html>

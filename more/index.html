@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="website icon" href="/more/teddy-bear.png" />
+  <head>
+    <meta charset="UTF-8" />
+    <title>To My Pookie 🎂</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f7ede2; /* creamy beige */
+        font-family: "Georgia", serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .paper {
+        background-color: #fff5e1;
+        background-size: cover;
+        background-position: center;
+        padding: 30px;
+        width: 90%;
+        max-width: 700px;
+        max-height: 500px;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        text-align: center;
+      }
+
+      #letter {
+        display: none;
+        font-size: 20px;
+        line-height: 1.7;
+        color: #5a3e36; /* soft rich brown */
+      }
+
+      #letter.show {
+        display: block;
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      button {
+        margin-top: 20px;
+        padding: 12px 25px;
+        font-size: 18px;
+        background-color: #caa892; /* soft brown-pink */
+        color: white;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #a77c68;
+      }
+
+      /* Sparkles ✨ */
+      .sparkle {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: radial-gradient(circle, #fff5e1, transparent);
+        animation: sparkle 2s infinite;
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      @keyframes sparkle {
+        0% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-100px) scale(0.5);
+        }
+      }
+
+      @keyframes floaty {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-30px) rotate(10deg);
+        }
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+      }
+
+      /* 💖 Cute Scrollbar */
+      .paper::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      .paper::-webkit-scrollbar-track {
+        background: #f3e4d7; /* baby beige */
+        border-radius: 10px;
+      }
+
+      .paper::-webkit-scrollbar-thumb {
+        background-color: #d9b8a7; /* soft pinkish brown */
+        border-radius: 10px;
+        border: 2px solid #f3e4d7; /* makes it look inset */
+      }
+
+      .paper::-webkit-scrollbar-thumb:hover {
+        background-color: #c49b87; /* a lil darker on hover */
+      }
+
+      /* Position Truth or Dare button nicely */
+      #truthDareBtn {
+        display: none;
+        margin-top: 10px;
+        padding: 10px 20px;
+        border-radius: 12px;
+        background: #b3478f;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(179, 71, 143, 0.6);
+        transition: background-color 0.3s ease;
+      }
+      #truthDareBtn:hover {
+        background-color: #942f6d;
+      }
+    </style>
+  </head>
+  <body>
+    <audio id="bgMusic" autoplay loop>
+      <source src="/more/music.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+
+    <button
+      onclick="toggleMusic()"
+      style="position: fixed; top: 10px; right: 10px; z-index: 100"
+    >
+      🎵 Music: On
+    </button>
+
+    <script>
+      let isPlaying = true;
+      const music = document.getElementById("bgMusic");
+      const button = document.querySelector("button[onclick='toggleMusic()']");
+
+      function toggleMusic() {
+        if (isPlaying) {
+          music.pause();
+          button.textContent = "🔇 Music: Off";
+        } else {
+          music.play();
+          button.textContent = "🎵 Music: On";
+        }
+        isPlaying = !isPlaying;
+      }
+    </script>
+
+    <div class="paper">
+      <div id="letter">
+        💌 To My Bestie 💌 <br /><br />
+
+        🎉 Happy Freakin' Birthday, QUEEN! 👑🎂 <br /><br />
+
+        Girl... where do I even start? 😭 You are the glue, the sparkle, the
+        chaos, and the comfort in my life all at once 💥✨🧸<br /><br />
+
+        I don’t even know who I’d be without your voice notes, your roasts, your
+        rants, and your random "2AM" texts 🫶😂<br /><br />
+
+        You make my life brighter, louder, and wayyy more ✨slay✨ every single
+        day. <br /><br />
+
+        Here's to more memories, deep convos, matching fits, healing phases, and
+        slaying EVERYTHING we touch 💅💞<br /><br />
+
+        I love you, I appreciate you, and I’ll forever be your ride-or-die 💖
+        <br /><br />
+
+        HAPPY BIRTHDAY, BESTIEEEE 🥳👯‍♀️💘
+      </div>
+    </div>
+
+    <button id="revealBtn" onclick="showLetter()">
+      🎁 Click to Open Your Birthday Letter
+    </button>
+
+    <h1 style="display: none; font-family: 'Courier New', Courier, monospace">
+      OR
+    </h1>
+
+    <button id="truthDareBtn">Play Truth or Dare!</button>
+
+    <script>
+      // Sparkles
+      function createSparkle() {
+        const sparkle = document.createElement("div");
+        sparkle.className = "sparkle";
+        sparkle.style.left = Math.random() * 100 + "vw";
+        sparkle.style.top = Math.random() * 100 + "vh";
+        sparkle.style.animationDuration = Math.random() * 1 + 1.5 + "s";
+        sparkle.style.width = sparkle.style.height =
+          Math.random() * 8 + 5 + "px";
+
+        document.body.appendChild(sparkle);
+
+        setTimeout(() => sparkle.remove(), 2000);
+      }
+
+      setInterval(createSparkle, 250);
+
+      // Main function to open letter and show buttons
+      function showLetter() {
+        const letter = document.getElementById("letter");
+        const btn = document.getElementById("revealBtn");
+        const truthDareBtn = document.getElementById("truthDareBtn");
+
+        if (!letter.classList.contains("show")) {
+          letter.classList.add("show");
+
+          // 🎉 Confetti blast!
+          confetti({
+            particleCount: 150,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ["#d9b8a7", "#ffcad4", "#fff5e1", "#f7ede2"],
+          });
+
+          // Change main button to go to photo game
+          btn.textContent = "📸 Let's take some PHOTOS 📸";
+          btn.onclick = () => {
+            window.location.href = "photo.html"; // update to your actual photo game path
+          };
+
+          // show "OR" h1
+          document.querySelector("h1").style.display = "block";
+
+          // Show Truth or Dare button
+          truthDareBtn.style.display = "inline-block";
+          truthDareBtn.onclick = () => {
+            window.location.href = "TorD.html"; // update to your actual Truth or Dare game path
+          };
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  </body>
+</html>
